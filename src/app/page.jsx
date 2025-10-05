@@ -70,7 +70,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + "/products?code=${manualCode}");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?code=${manualCode}`);
       if (!response.ok) {
         throw new Error('商品が見つかりませんでした');
       }
