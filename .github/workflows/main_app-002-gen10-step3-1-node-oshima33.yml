@@ -38,7 +38,7 @@ jobs:
           cp -r ./.next/static/. ./deploy/.next/static
 
       - name: Zip artifact for deployment
-        run: sip release.zip ./deploy -r
+        run: zip release.zip ./deploy -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -71,4 +71,5 @@ jobs:
           package: ./deploy
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2707053634D496DA494E6B76C960768 }}
+
 
