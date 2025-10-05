@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '24.x'
 
       - name: npm install, build, and test
         env: NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
@@ -68,4 +68,5 @@ jobs:
           app-name: 'app-002-gen10-step3-1-node-oshima33'
           slot-name: 'Production'
           package: ./deploy
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2707053634D496DA494E6B76C960768 }}
