@@ -24,20 +24,33 @@ jobs:
           node-version: '22.x'
 
       - name: npm install, build, and test
+        env: NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
 
+      - name: Copy artifact for deployment job
+        run: |
+          mkdir deploy
+          cp -r ./.next/standalone/. ./deploy
+          cp -r ./.next/static/. ./deploy/.next/static
+
+      - name: Zip artifact for deployment
+        run: sip release.zip ./deploy -r
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
@@ -45,11 +58,14 @@ jobs:
         with:
           name: node-app
       
+      - name: Unzio artifact for deployment
+        run: unzip release.zip
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-002-gen10-step3-1-node-oshima33'
           slot-name: 'Production'
-          package: .
+          package: ./deploy
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2707053634D496DA494E6B76C960768 }}
