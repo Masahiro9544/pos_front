@@ -344,52 +344,54 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col h-full">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">バーコードスキャン</h3>
-              <button
-                onClick={closeCamera}
-                className="bg-[#DA1432] text-white px-4 py-2 rounded"
-              >
-                閉じる
-              </button>
-            </div>
+          <div className="flex flex-col items-center h-full">
+            <div className="w-full max-w-2xl">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold">バーコードスキャン</h3>
+                <button
+                  onClick={closeCamera}
+                  className="bg-[#DA1432] text-white px-4 py-2 rounded"
+                >
+                  閉じる
+                </button>
+              </div>
 
-            <div className="flex-1 bg-black rounded-lg overflow-hidden relative">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="w-full h-full object-cover"
-              />
+              <div className="bg-black rounded-lg overflow-hidden relative" style={{ aspectRatio: '4/3', maxHeight: '500px' }}>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
 
               {isScanning && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="border-2 border-white border-dashed w-60 h-48 rounded-lg animate-pulse"></div>
                 </div>
               )}
-            </div>
+              </div>
 
-            <div className="mt-4 text-center">
-              {scannedCode ? (
-                <div className="bg-green-100 border border-green-400 rounded-lg p-4 mb-4">
-                  <h4 className="text-green-800 font-semibold mb-2">スキャン成功!</h4>
-                  <p className="text-green-700 break-all">{scannedCode}</p>
-                  <button
-                    onClick={() => {
-                      setScannedCode("");
-                      startScanning();
-                    }}
-                    className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-                  >
-                    再スキャン
-                  </button>
-                </div>
-              ) : (
-                <p className="text-sm text-gray-600">
-                  バーコードを画面中央に合わせてください
-                </p>
-              )}
+              <div className="mt-4 text-center">
+                {scannedCode ? (
+                  <div className="bg-green-100 border border-green-400 rounded-lg p-4 mb-4">
+                    <h4 className="text-green-800 font-semibold mb-2">スキャン成功!</h4>
+                    <p className="text-green-700 break-all">{scannedCode}</p>
+                    <button
+                      onClick={() => {
+                        setScannedCode("");
+                        startScanning();
+                      }}
+                      className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+                    >
+                      再スキャン
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-600">
+                    バーコードを画面中央に合わせてください
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         )}
